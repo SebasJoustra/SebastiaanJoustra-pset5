@@ -74,10 +74,12 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     // Read database
-    public ArrayList<TodoItem> read() {
+    public ArrayList<TodoList> read() {
         SQLiteDatabase db = getReadableDatabase();
 
-        ArrayList<TodoItem> todoItems = new ArrayList<>();
+        //ArrayList<TodoItem> todoItems = new ArrayList<>();
+        ArrayList<TodoList> todoLists = new ArrayList<>();
+        ArrayList<String> todoListNames = new ArrayList<>();
 
         String query = "SELECT " + COLUMN_ID + ", "
                 + COLUMN_TITLE + ", "
@@ -88,6 +90,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, null);
 
         // Set cursor to beginning of databsae
+        int i = 0;
         if(cursor.moveToFirst()) {
             do {
                 String title = cursor.getString(cursor.getColumnIndex(COLUMN_TITLE));
@@ -95,15 +98,38 @@ public class DBHelper extends SQLiteOpenHelper {
                 int id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
                 String inListName = cursor.getString(cursor.getColumnIndex(COLUMN_INLIST));
 
-                // Create todoItem with the newly retrieved data
-                TodoItem todoItem = new TodoItem(title, completed, id, inListName);
-                todoItems.add(todoItem);
 
+                TodoItem todoItem = new TodoItem(title, completed, id, inListName);
+
+                // Create todoLists with the newly retrieved data
+                if(todoListNames.contains(inListName)) {
+                    todoLists.get(i).addTodoItem(todoItem);
+                } else {
+                    todoListNames.add(todoItem.getInListName());
+
+                    // Todolist didn't exist yet in the arraylist
+                    TodoList todoList = new TodoList(todoItem.getInListName());
+                    todoList.addTodoItem(todoItem);
+                    todoLists.add(todoList);
+                }
+
+                i ++;
             } while(cursor.moveToNext());
         }
 
         cursor.close();
         db.close();
-        return todoItems;
+        return todoLists;
+    }
+
+    public int update(TodoItem todoItem) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TITLE, todoItem.getTitle());
+        values.put(COLUMN_COMPLETED, todoItem.isCompleted());
+        values.put(COLUMN_INLIST, todoItem.getInListName());
+
+        return db.update(TABLE, values, COLUMN_ID + " = ? ", new String[] { String.valueOf(todoItem.getId()) });
     }
 }

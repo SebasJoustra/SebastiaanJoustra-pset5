@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -16,9 +18,11 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     DBHelper dbHelper;
-    
+
     ArrayList<TodoList> todoLists;
     ArrayList<String> todoListNames;
+
+    ListView lvLists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,38 +39,49 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        lvLists = (ListView) findViewById(R.id.lvLists);
         dbHelper = DBHelper.getInstance(this);
 
         dbHelper.addRow(new TodoItem("Read chapter 1", "Study"));
+        
+        todoLists = dbHelper.read();
 
-        getTodoLists();
+        //System.out.println(todoLists.get(0).getTodoItems().get(0).getTitle());
+
+        setAdapter();
 
     }
 
     private void getTodoLists() {
-        todoLists = new ArrayList<>();
-        todoListNames = new ArrayList<>();
+//        todoLists = new ArrayList<>();
+//        todoListNames = new ArrayList<>();
+//
+//        ArrayList<TodoItem> items = dbHelper.read();
+//        System.out.println(items.get(0));
+//
+//        // Loop through all to-do items and add them to their corresponding lists
+//        for(int i = 0; i < items.size(); i++) {
+//            TodoItem item = items.get(i);
+//
+//            if(todoListNames.contains(item.getInListName())) {
+//                todoLists.get(i).addTodoItem(item);
+//            }
+//            else {
+//                todoListNames.add(item.getInListName());
+//
+//                // Todolist didn't exist yet in the arraylist
+//                TodoList todoList = new TodoList(item.getInListName());
+//                todoList.addTodoItem(item);
+//                todoLists.add(todoList);
+//
+//            }
+//        }
+    }
 
-        ArrayList<TodoItem> items = dbHelper.read();
-        System.out.println(items.get(0));
-
-        // Loop through all to-do items and add them to their corresponding lists
-        for(int i = 0; i < items.size(); i++) {
-            TodoItem item = items.get(i);
-
-            if(todoListNames.contains(item.getInListName())) {
-                todoLists.get(i).addTodoItem(item);
-            }
-            else {
-                todoListNames.add(item.getInListName());
-
-                // Todolist didn't exist yet in the arraylist
-                TodoList todoList = new TodoList(item.getInListName());
-                todoList.addTodoItem(item);
-                todoLists.add(todoList);
-
-            }
-        }
+    private void setAdapter() {
+        ListAdapter adapter = new ListsAdapter(this, todoLists);
+        lvLists.setAdapter(adapter);
     }
 
     @Override
