@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.sebastiaan.sebastiaanjoustra_pset5.TodoViewActivity"
+    tools:showIn="@layout/activity_todo_view"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/colorPrimary"
+        android:text="Description"
+        android:paddingBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/etTaskTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"/>
+
+    <CheckBox
+        android:id="@+id/cbCompleted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mark as complete"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp">
+
+        <Button
+            android:id="@+id/btDone"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="136dp"
+            android:layout_height="wrap_content"
+            android:text="Done"
+            android:onClick="clickedDone"/>
+
+        <Button
+            android:layout_width="136dp"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:onClick="clickedDelete"/>
+
+    </LinearLayout>
+
+</LinearLayout>

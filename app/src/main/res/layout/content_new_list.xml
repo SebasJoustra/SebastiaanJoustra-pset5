@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.sebastiaan.sebastiaanjoustra_pset5.NewListActivity"
+    tools:showIn="@layout/activity_new_list"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvAddItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/colorPrimary"
+        android:text="@string/list_to_add_text"
+        android:paddingBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/etAddItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/list_name"
+        android:inputType="textCapSentences"
+        android:paddingBottom="16dp"/>
+
+    <Button
+        android:id="@+id/btAddItem"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="136dp"
+        android:layout_height="wrap_content"
+        android:text="@string/add"
+        android:onClick="addItem"/>
+
+</LinearLayout>

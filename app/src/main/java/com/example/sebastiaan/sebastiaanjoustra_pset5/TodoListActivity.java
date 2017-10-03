@@ -1,13 +1,31 @@
 package com.example.sebastiaan.sebastiaanjoustra_pset5;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TodoListActivity extends AppCompatActivity {
+
+    DBHelper helper;
+    ArrayList<TodoList> todoLists;
+    ListView lvItems;
+    int listIndex;
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,14 +34,42 @@ public class TodoListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabList);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(getApplicationContext(), NewTodoItemActivity.class);
+                intent.putExtra("listIndex", listIndex);
+                startActivity(intent);
             }
         });
+
+        lvItems = (ListView) findViewById(R.id.lvItems);
+
+        Intent intent = this.getIntent();
+        listIndex = intent.getIntExtra("listIndex", 0);
+        helper = DBHelper.getInstance(this);
+        todoLists = helper.read();
+
+        TodoList todoList = todoLists.get(listIndex);
+
+        TodoListAdapter adapter = new TodoListAdapter(this, todoList.getTodoItems());
+        lvItems.setAdapter(adapter);
+        lvItems.setOnItemClickListener(new ItemClickListener());
+
+    }
+
+    public class ItemClickListener implements AdapterView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int itemIndex, long l) {
+            Intent intent = new Intent(getApplicationContext(), TodoViewActivity.class);
+            Bundle extras = new Bundle();
+            extras.putInt("listIndex", listIndex);
+            extras.putInt("itemIndex", itemIndex);
+            intent.putExtras(extras);
+            startActivity(intent);
+        }
     }
 
 }

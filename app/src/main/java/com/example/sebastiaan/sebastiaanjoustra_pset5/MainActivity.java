@@ -1,6 +1,7 @@
 package com.example.sebastiaan.sebastiaanjoustra_pset5;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -20,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     DBHelper dbHelper;
 
     ArrayList<TodoList> todoLists;
-    ArrayList<String> todoListNames;
 
     ListView lvLists;
 
@@ -31,57 +32,42 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabMain);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(getApplicationContext(), NewListActivity.class);
+                startActivity(intent);
             }
         });
 
         lvLists = (ListView) findViewById(R.id.lvLists);
         dbHelper = DBHelper.getInstance(this);
 
-        dbHelper.addRow(new TodoItem("Read chapter 1", "Study"));
-        
-        todoLists = dbHelper.read();
-
+        //dbHelper.addRow(new TodoItem("Read chapter 1", "Study"));
         //System.out.println(todoLists.get(0).getTodoItems().get(0).getTitle());
 
         setAdapter();
 
-    }
+        lvLists.setOnItemClickListener(new ItemClickListener());
 
-    private void getTodoLists() {
-//        todoLists = new ArrayList<>();
-//        todoListNames = new ArrayList<>();
-//
-//        ArrayList<TodoItem> items = dbHelper.read();
-//        System.out.println(items.get(0));
-//
-//        // Loop through all to-do items and add them to their corresponding lists
-//        for(int i = 0; i < items.size(); i++) {
-//            TodoItem item = items.get(i);
-//
-//            if(todoListNames.contains(item.getInListName())) {
-//                todoLists.get(i).addTodoItem(item);
-//            }
-//            else {
-//                todoListNames.add(item.getInListName());
-//
-//                // Todolist didn't exist yet in the arraylist
-//                TodoList todoList = new TodoList(item.getInListName());
-//                todoList.addTodoItem(item);
-//                todoLists.add(todoList);
-//
-//            }
-//        }
     }
 
     private void setAdapter() {
+        todoLists = dbHelper.read();
+
         ListAdapter adapter = new ListsAdapter(this, todoLists);
         lvLists.setAdapter(adapter);
+    }
+
+    public class ItemClickListener implements AdapterView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            Intent intent = new Intent(getApplicationContext(), TodoListActivity.class);
+            intent.putExtra("listIndex", i);
+            startActivity(intent);
+        }
     }
 
     @Override
