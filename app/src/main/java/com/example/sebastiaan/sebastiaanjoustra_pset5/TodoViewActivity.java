@@ -1,9 +1,9 @@
 package com.example.sebastiaan.sebastiaanjoustra_pset5;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -77,10 +77,33 @@ public class TodoViewActivity extends AppCompatActivity {
     }
 
     public void clickedDelete(View view) {
-        helper.deleteRow(todoItem);
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(TodoViewActivity.this);
+
+        builder.setTitle("Delete to-do item")
+            .setMessage("Are you sure you want to delete this to-do item?")
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    helper.deleteRow(todoItem);
+                    if(todoLists.get(listIndex).getTodoItems().size() == 1) {
+                        // If this was the last item on the list, we want to return to the main activity to prevent errors
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), TodoListActivity.class);
+                        intent.putExtra("listIndex", listIndex);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            })
+            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // do nothing
+                }
+            })
+            .show();
     }
 
 }

@@ -12,4 +12,5 @@
     <string name="add">Add</string>
     <string name="list_to_add_text">What is the name of the list you want to add?</string>
     <string name="title_activity_todo_view">Your to-do item</string>
+    <string name="menu_delete">Delete</string>
 </resources>

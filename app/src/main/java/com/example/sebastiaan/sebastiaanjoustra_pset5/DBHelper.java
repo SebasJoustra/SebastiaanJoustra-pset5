@@ -133,4 +133,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return db.update(TABLE, values, COLUMN_ID + " = ? ", new String[] { String.valueOf(todoItem.getId()) });
     }
+
+    public void deleteList(TodoList todoList) {
+        for(TodoItem item : todoList.getTodoItems()) {
+            this.deleteRow(item);
+        }
+    }
 }
