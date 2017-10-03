@@ -90,7 +90,6 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, null);
 
         // Set cursor to beginning of databsae
-        int i = 0;
         if(cursor.moveToFirst()) {
             do {
                 String title = cursor.getString(cursor.getColumnIndex(COLUMN_TITLE));
@@ -103,7 +102,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
                 // Create todoLists with the newly retrieved data
                 if(todoListNames.contains(inListName)) {
-                    todoLists.get(i).addTodoItem(todoItem);
+                    //todoLists.get(i).addTodoItem(todoItem);
+                    int idx = todoListNames.indexOf(inListName);
+                    todoLists.get(idx).addTodoItem(todoItem);
                 } else {
                     todoListNames.add(todoItem.getInListName());
 
@@ -113,7 +114,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     todoLists.add(todoList);
                 }
 
-                i ++;
+
             } while(cursor.moveToNext());
         }
 
