@@ -37,7 +37,7 @@ class ListsAdapter extends ArrayAdapter<TodoList> {
         TextView tvNumberTodos = row.findViewById(R.id.tvNumberTodos);
 
         tvName.setText(item.getName());
-        tvNumberTodos.setText(String.valueOf(item.getTodoItems().size()));
+        tvNumberTodos.setText("Completed "+item.getCompletedNumber()+"/"+String.valueOf(item.getTodoItems().size()));
 
         return row;
     }

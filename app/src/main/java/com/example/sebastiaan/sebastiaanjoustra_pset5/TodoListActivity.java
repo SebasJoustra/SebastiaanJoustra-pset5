@@ -51,8 +51,8 @@ public class TodoListActivity extends AppCompatActivity {
         listIndex = intent.getIntExtra("listIndex", 0);
         helper = DBHelper.getInstance(this);
         todoLists = helper.read();
-
         TodoList todoList = todoLists.get(listIndex);
+        setTitle("To-do List: " + todoList.getName());
 
         TodoListAdapter adapter = new TodoListAdapter(this, todoList.getTodoItems());
         lvItems.setAdapter(adapter);

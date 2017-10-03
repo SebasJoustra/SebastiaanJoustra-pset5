@@ -31,4 +31,14 @@ class TodoList {
     public void addTodoItem(TodoItem todoItem) {
         todoItems.add(todoItem);
     }
+
+    public int getCompletedNumber() {
+        int completedNr = 0;
+        for(TodoItem item : todoItems) {
+            if(item.isCompleted() == 1) {
+                completedNr ++;
+            }
+        }
+        return completedNr;
+    }
 }

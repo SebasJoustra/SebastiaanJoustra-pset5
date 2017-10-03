@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="48dp">
+    android:layout_height="72dp"
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp"
+    android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/tvRowTitle"
-        android:text="Task"
-        android:textSize="18sp"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"/>
+        <TextView
+            android:id="@+id/tvRowTitle"
+            android:text="Task"
+            android:textSize="18sp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:paddingBottom="16dp"
+            android:textColor="@color/primary_text"/>
 
-    <TextView
-        android:id="@+id/tvNumberTodos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:paddingEnd="16dp"
-        android:textSize="18sp"
-        android:text="3"/>
+        <TextView
+            android:id="@+id/tvNumberTodos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/secondary_text"
+            android:text="Completed: 0/3"/>
+
 
 </LinearLayout>
