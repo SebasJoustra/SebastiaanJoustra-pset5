@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class DBHelper extends SQLiteOpenHelper {
     private static DBHelper sInstance;
     private static ArrayList<TodoList> todoLists;
+    //private static ArrayList<String> listNames;
 
     private static final String DATABASE_NAME = "todo.db";
     private static final int DATABASE_VERSION = 1;
@@ -77,7 +78,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public ArrayList<TodoList> read() {
         SQLiteDatabase db = getReadableDatabase();
 
-        //ArrayList<TodoItem> todoItems = new ArrayList<>();
         ArrayList<TodoList> todoLists = new ArrayList<>();
         ArrayList<String> todoListNames = new ArrayList<>();
 

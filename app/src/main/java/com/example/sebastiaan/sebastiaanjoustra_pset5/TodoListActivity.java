@@ -41,6 +41,7 @@ public class TodoListActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), NewTodoItemActivity.class);
                 intent.putExtra("listIndex", listIndex);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -64,11 +65,10 @@ public class TodoListActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int itemIndex, long l) {
             Intent intent = new Intent(getApplicationContext(), TodoViewActivity.class);
-            Bundle extras = new Bundle();
-            extras.putInt("listIndex", listIndex);
-            extras.putInt("itemIndex", itemIndex);
-            intent.putExtras(extras);
+            intent.putExtra("listIndex", listIndex);
+            intent.putExtra("itemIndex", itemIndex);
             startActivity(intent);
+            finish();
         }
     }
 

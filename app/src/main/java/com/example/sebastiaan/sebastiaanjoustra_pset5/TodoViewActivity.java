@@ -43,12 +43,21 @@ public class TodoViewActivity extends AppCompatActivity {
 
         // Get to-do item values
         Intent intent = this.getIntent();
-        Bundle extras = new Bundle();
-        listIndex = extras.getInt("listIndex");
-        itemIndex = extras.getInt("itemIndex");
+        listIndex = intent.getIntExtra("listIndex", 0);
+        itemIndex = intent.getIntExtra("itemIndex", 0);
+
         helper = DBHelper.getInstance(this);
         todoLists = helper.read();
-        TodoItem todoItem = todoLists.get(listIndex).getTodoItems().get(itemIndex);
+        todoItem = todoLists.get(listIndex).getTodoItems().get(itemIndex);
+
+        // Initialize components
+        etTaskTitle = (EditText) findViewById(R.id.etTaskTitle);
+        etTaskTitle.setText(todoItem.getTitle());
+        etTaskTitle.setSelection(todoItem.getTitle().length());
+        checkBox = (CheckBox) findViewById(R.id.cbCompleted);
+        if(todoItem.isCompleted() == 1) {
+            checkBox.setChecked(true);
+        }
 
     }
 

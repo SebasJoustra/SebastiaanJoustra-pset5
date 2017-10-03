@@ -21,6 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:paddingEnd="16dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:text=""/>
 
 </LinearLayout>

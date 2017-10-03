@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), NewListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), TodoListActivity.class);
             intent.putExtra("listIndex", i);
             startActivity(intent);
+            finish();
         }
     }
 
