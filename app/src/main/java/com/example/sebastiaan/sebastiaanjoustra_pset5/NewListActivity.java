@@ -13,7 +13,8 @@ import java.util.ArrayList;
 
 public class NewListActivity extends AppCompatActivity {
 
-    EditText etAddItem;
+    EditText etAddList;
+    EditText etAddTodoItem;
     DBHelper helper;
 
     @Override
@@ -32,16 +33,17 @@ public class NewListActivity extends AppCompatActivity {
 
         helper = DBHelper.getInstance(this);
 
-        etAddItem = (EditText) findViewById(R.id.etAddItem);
+        etAddList = (EditText) findViewById(R.id.etAddItem);
+        etAddTodoItem = (EditText) findViewById(R.id.etItemWithList);
     }
 
     public void addItem(View view) {
         boolean uniqueName = true;
-        String text = etAddItem.getText().toString();
+        String listNameText = etAddList.getText().toString();
+        String itemTitle = etAddTodoItem.getText().toString();
         ArrayList<TodoList> lists = helper.read();
-        //TODO check this in manager class instead
         for(TodoList item : lists) {
-            if(text.equals(item.getName())) {
+            if(listNameText.equals(item.getName())) {
                 uniqueName = false;
                 Snackbar.make(view, "This list name already exists. Pick something unique...", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
@@ -49,7 +51,7 @@ public class NewListActivity extends AppCompatActivity {
             }
         }
         if(uniqueName) {
-            TodoItem todoItem = new TodoItem("Sample item", text);
+            TodoItem todoItem = new TodoItem(itemTitle, listNameText);
             helper.addRow(todoItem);
 
             Intent intent = new Intent(this, MainActivity.class);
