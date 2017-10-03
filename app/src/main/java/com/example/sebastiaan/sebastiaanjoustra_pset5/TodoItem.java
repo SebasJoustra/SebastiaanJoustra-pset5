@@ -5,16 +5,19 @@ class TodoItem {
     private int _id;
     private String title;
     private int completed;
+    private String inListName;
 
-    TodoItem(String todoTitle) {
+    TodoItem(String todoTitle, String listName) {
         title = todoTitle;
         completed = 0;
+        inListName = listName;
     }
 
-    TodoItem(String todoTitle, int isCompleted, int todoId) {
+    TodoItem(String todoTitle, int isCompleted, int todoId, String listName) {
         title = todoTitle;
         completed = isCompleted;
         _id = todoId;
+        inListName = listName;
     }
 
     public int isCompleted() {
@@ -39,5 +42,13 @@ class TodoItem {
 
     public void setId(int _id) {
         this._id = _id;
+    }
+
+    public String getInListName() {
+        return inListName;
+    }
+
+    public void setInListName(String inListName) {
+        this.inListName = inListName;
     }
 }

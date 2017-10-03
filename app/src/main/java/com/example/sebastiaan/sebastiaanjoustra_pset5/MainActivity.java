@@ -10,9 +10,15 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     DBHelper dbHelper;
+    
+    ArrayList<TodoList> todoLists;
+    ArrayList<String> todoListNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +35,38 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        dbHelper = DBHelper.getInstance(this);
 
-        dbHelper.getInstance(this);
+        dbHelper.addRow(new TodoItem("Read chapter 1", "Study"));
 
+        getTodoLists();
+
+    }
+
+    private void getTodoLists() {
+        todoLists = new ArrayList<>();
+        todoListNames = new ArrayList<>();
+
+        ArrayList<TodoItem> items = dbHelper.read();
+        System.out.println(items.get(0));
+
+        // Loop through all to-do items and add them to their corresponding lists
+        for(int i = 0; i < items.size(); i++) {
+            TodoItem item = items.get(i);
+
+            if(todoListNames.contains(item.getInListName())) {
+                todoLists.get(i).addTodoItem(item);
+            }
+            else {
+                todoListNames.add(item.getInListName());
+
+                // Todolist didn't exist yet in the arraylist
+                TodoList todoList = new TodoList(item.getInListName());
+                todoList.addTodoItem(item);
+                todoLists.add(todoList);
+
+            }
+        }
     }
 
     @Override

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static DBHelper sInstance;
+    private static ArrayList<TodoList> todoLists;
 
     private static final String DATABASE_NAME = "todo.db";
     private static final int DATABASE_VERSION = 1;
@@ -18,10 +19,12 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ID = "_id";
     private static final String COLUMN_TITLE = "title";
     private static final String COLUMN_COMPLETED = "completed";
+    private static final String COLUMN_INLIST = "inListName";
     private static final String CREATE_TABLE = "CREATE TABLE " + TABLE + "("
             + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_TITLE + " TEXT NOT NULL,"
-            + COLUMN_COMPLETED + " BOOL NOT NULL" +
+            + COLUMN_COMPLETED + " BOOL NOT NULL,"
+            + COLUMN_INLIST + " TEXT NOT NULL" +
             ");";
 
     public static synchronized DBHelper getInstance(Context context) {
@@ -51,9 +54,11 @@ public class DBHelper extends SQLiteOpenHelper {
     // Add new row to database
     public void addRow(TodoItem todoItem) {
         SQLiteDatabase db = getWritableDatabase();
+        onUpgrade(db, 1,1);
         ContentValues values = new ContentValues();
         values.put(COLUMN_TITLE, todoItem.getTitle());
         values.put(COLUMN_COMPLETED, todoItem.isCompleted());
+        values.put(COLUMN_INLIST, todoItem.getInListName());
 
         db.insert(TABLE, null, values);
         db.close();
@@ -76,7 +81,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         String query = "SELECT " + COLUMN_ID + ", "
                 + COLUMN_TITLE + ", "
-                + COLUMN_COMPLETED
+                + COLUMN_COMPLETED + ", "
+                + COLUMN_INLIST
                 + " FROM " + TABLE;
 
         Cursor cursor = db.rawQuery(query, null);
@@ -87,9 +93,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 String title = cursor.getString(cursor.getColumnIndex(COLUMN_TITLE));
                 int completed = cursor.getInt(cursor.getColumnIndex(COLUMN_COMPLETED));
                 int id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
+                String inListName = cursor.getString(cursor.getColumnIndex(COLUMN_INLIST));
 
                 // Create todoItem with the newly retrieved data
-                TodoItem todoItem = new TodoItem(title, completed, id);
+                TodoItem todoItem = new TodoItem(title, completed, id, inListName);
                 todoItems.add(todoItem);
 
             } while(cursor.moveToNext());
