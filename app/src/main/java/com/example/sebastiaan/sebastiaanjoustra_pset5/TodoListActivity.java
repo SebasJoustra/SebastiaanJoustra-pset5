@@ -1,6 +1,7 @@
 package com.example.sebastiaan.sebastiaanjoustra_pset5;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -57,7 +58,6 @@ public class TodoListActivity extends AppCompatActivity {
         TodoListAdapter adapter = new TodoListAdapter(this, todoList.getTodoItems());
         lvItems.setAdapter(adapter);
         lvItems.setOnItemClickListener(new ItemClickListener());
-
     }
 
     public class ItemClickListener implements AdapterView.OnItemClickListener {
